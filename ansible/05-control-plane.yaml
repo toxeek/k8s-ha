@@ -12,33 +12,18 @@
 
     - name: create .kube directory
       become: yes
-      become_user: vagrant
+      become_user: tricky
       file:
-        path: /home/vagrant/.kube
+        path: /home/tricky/.kube
         state: directory
         mode: 0755
 
     - name: copy admin.conf to user's kube config
       copy:
         src: /etc/kubernetes/admin.conf
-        dest: /home/vagrant/.kube/config
+        dest: /home/tricky/.kube/config
         remote_src: yes
-        owner: vagrant
-
-    - name: create .kube directory
-      become: yes
-      become_user: kubeadmin
-      file:
-        path: /home/kubeadmin/.kube
-        state: directory
-        mode: 0755
-
-    - name: copy admin.conf to user's kube config
-      copy:
-        src: /etc/kubernetes/admin.conf
-        dest: /home/kubeadmin/.kube/config
-        remote_src: yes
-        owner: kubeadmin
+        owner: tricky
 
     - name: get join command
       shell: kubeadm token create --print-join-command
@@ -78,30 +63,16 @@
   tasks:
     - name: create .kube directory
       become: yes
-      become_user: vagrant
+      become_user: tricky
       file:
-        path: /home/vagrant/.kube
+        path: /home/tricky/.kube
         state: directory
         mode: 0755
 
     - name: copy admin.conf to user's kube config
       copy:
         src: /etc/kubernetes/admin.conf
-        dest: /home/vagrant/.kube/config
+        dest: /home/tricky/.kube/config
         remote_src: yes
-        owner: vagrant
+        owner: tricky
 
-    - name: create .kube directory
-      become: yes
-      become_user: kubeadmin
-      file:
-        path: /home/kubeadmin/.kube
-        state: directory
-        mode: 0755
-
-    - name: copy admin.conf to user's kube config
-      copy:
-        src: /etc/kubernetes/admin.conf
-        dest: /home/kubeadmin/.kube/config
-        remote_src: yes
-        owner: vagrant

@@ -31,7 +31,7 @@
             log /dev/log local0
             user haproxy
             group haproxy
-           stats socket /var/lib/haproxy/stats
+            stats socket /var/lib/haproxy/stats
           
           defaults
             log global
@@ -73,7 +73,7 @@
           
           vrrp_instance VI_1 {
               state MASTER
-              interface eth1
+              interface enp0s3
               virtual_router_id 1
               priority 101
               advert_int 5
@@ -82,7 +82,7 @@
                   auth_pass {{ PASSWORD_KEEPALIVED }}
               }
               virtual_ipaddress {
-                  172.16.16.100
+                  192.168.1.100
               }
               track_script {
                   check_apiserver
@@ -107,7 +107,7 @@
 
           vrrp_instance VI_1 {
               state BACKUP
-              interface eth1
+              interface enp0s3
               virtual_router_id 1
               priority 100
               advert_int 5
@@ -116,7 +116,7 @@
                   auth_pass {{ PASSWORD_KEEPALIVED }}
               }
               virtual_ipaddress {
-                  172.16.16.100
+                  192.168.1.100
               }
               track_script {
                   check_apiserver

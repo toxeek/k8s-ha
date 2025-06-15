@@ -1,4 +1,3 @@
-- import_playbook: 01-initial.yaml
 - import_playbook: 02-packages.yaml
 - import_playbook: 03-lb.yaml
 - import_playbook: 04-k8s.yaml

@@ -40,7 +40,7 @@
       become: yes
       shell: modprobe overlay && modprobe br_netfilter && sysctl --system
 
-    - name: For releases older than Debian 12 and Ubuntu 22.04
+    - name: For releases older than Debian 12 and Ubuntu /etc/apt/keyrings/docker.gpg22.04
       become: yes
       file:
         path: /etc/apt/keyrings
@@ -50,6 +50,7 @@
     - name: Apt-key for containerd.io [1/2]
       become: yes
       shell: |
+        rm -f /etc/apt/keyrings/docker.gpg
         curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 
     - name: Add containerd.io repository [2/2]
@@ -85,6 +86,7 @@
     - name: add Kubernetes' APT repository
       become: yes
       shell: |
+        rm -f /etc/apt/keyrings/kubernetes-apt-keyring.gpg
         curl -fsSL https://pkgs.k8s.io/core:/stable:/v{{ K8S_VERSION | regex_search('(\d\.\d+)') }}/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
     - name: update repo
