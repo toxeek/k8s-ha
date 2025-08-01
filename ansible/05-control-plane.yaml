@@ -2,6 +2,9 @@
 - hosts: control1
   become: yes
   tasks:
+    #- name: reset the cluster
+    #  shell: kubeadm reset --force && rm -rf /etc/kubernetes
+
     - name: initialise the cluster
       shell: kubeadm init --control-plane-endpoint="{{ VIRTUAL_IP }}:{{ K8S_API_SERVER_PORT }}" --upload-certs --apiserver-advertise-address={{ IP_HOST_CP1 }} --pod-network-cidr=192.168.0.0/16
       register: cluster_initialized
@@ -52,10 +55,11 @@
   become: yes
   tasks:
     - debug: msg="{{ hostvars['control1'].cert_command }}"
-    - debug: msg="{{ ansible_eth1.ipv4.address }}"
-
+    - debug: msg="{{ ansible_enp0s3.ipv4.address }}"
+    - name: clear node_joined file
+      shell: cat /dev/null > node_joined.txt
     - name: join control-plane
-      shell: "{{ hostvars['control1'].join_command }} --control-plane --certificate-key={{ hostvars['control1'].cert_command }} --apiserver-advertise-address={{ ansible_eth1.ipv4.address|default(ansible_all_ipv4_addresses[0]) }} >> node_joined.txt"
+      shell: "{{ hostvars['control1'].join_command }} --control-plane --certificate-key={{ hostvars['control1'].cert_command }} --apiserver-advertise-address={{ ansible_enp0s3.ipv4.address|default(ansible_all_ipv4_addresses[0]) }} >> node_joined.txt"
       register: node_joined
 
 - hosts: control_plane
