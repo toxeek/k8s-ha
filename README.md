@@ -2,7 +2,7 @@
 
 Tested with Debian 12. I'd setup the vms with a local user named "tricky"
 To setup the vms, I need to:
-1/ su -
+1. su -
 2/ hostnamectl set-hostname hostname_here
 3/ usermod -aG sudo tricky
 3.1/ visudo
